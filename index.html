@@ -1,122 +1,202 @@
 <!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>sitoweb</title>
-        <style>
-        /* STILI BASE E FONT */
-        body {
-            margin: 0;
-            padding: 0;
-            background-color: #ffffff;
-            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            cursor: none; /* Nascondiamo il cursore originale per usare quello personalizzato */
-        }
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <title>Homepage</title>
 
-        /* HEADER */
-        header {
-            padding: 30px 50px;
-            text-align: right;
-        }
+  <style>
+    /* RESET */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      cursor: none;
+    }
 
-        .name {
-            font-size: 18px;
-            font-weight: bold;
-            letter-spacing: -0.5px;
-            color: #000;
-        }
+    body {
+      font-family: Helvetica, Arial, sans-serif;
+      background: #000;
+      color: #fff;
+      min-height: 100vh;
+      overflow: hidden;
+    }
 
-        /* CONTENITORE PULSANTI */
-        .container {
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            gap: 20px;
-        }
+    /* PAGINA */
+    .page {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      padding: 20px;
+    }
 
-        /* BOTTONI ARROTONDATI */
-        .btn {
-            background-color: transparent;
-            border: 1.5px solid #000;
-            color: #000;
-            padding: 15px 40px;
-            font-size: 16px;
-            border-radius: 50px; /* Arrotondamento completo */
-            text-decoration: none;
-            transition: all 0.3s ease;
-            width: 250px;
-            text-align: center;
-            font-weight: 500;
-        }
+    /* ESERCIZI */
+    .exercise {
+      position: absolute;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      font-family: 'Courier New', Courier, monospace; /* font monospaziato */
+      font-size: clamp(16px, 2vw, 32px); /* responsive */
+      transition: transform 0.2s ease, opacity 0.2s ease;
+    }
 
-        .btn:hover {
-            background-color: #000;
-            color: #fff;
-            transform: scale(1.05);
-        }
+    .exercise:hover {
+      opacity: 0.7;
+      transform: scale(1.3);
+    }
 
-        /* CURSORE FRECCIA PERSONALIZZATO */
-        #custom-cursor {
-            position: fixed;
-            pointer-events: none; /* Importante: non deve interferire con i click */
-            font-family: Helvetica, Arial, sans-serif;
-            font-size: 24px;
-            font-weight: bold;
-            color: #000;
-            z-index: 9999;
-            transform: translate(-50%, -50%);
-            transition: transform 0.1s ease-out;
-        }
+    /* FRECCIA */
+    .arrow {
+      width: 25px;
+      display: inline-block;
+      transition: transform 0.2s ease;
+    }
 
-    </style>
+    /* NOME IN BASSO A SINISTRA */
+    h1.name {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      font-size: 120pt; /* grandezza fissa */
+      line-height: 1;
+      margin: 0;
+      white-space: nowrap;
+    }
+
+    /* CURSORE PERSONALIZZATO */
+    .cursor {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 20px;
+      height: 20px;
+      border: 2px solid #fff;
+      border-radius: 50%;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+    }
+
+    @media(max-width: 1200px) {
+      h1.name {
+        font-size: 0pt;
+      }
+    }
+
+    @media(max-width: 768px) {
+      h1.name {
+        font-size: 50pt;
+      }
+      .exercise {
+        font-size: clamp(12px, 4vw, 24px);
+      }
+    }
+  </style>
 </head>
+
 <body>
 
-    <div id="custom-cursor">→</div>
+  <div class="page">
+    <!-- ESERCIZI -->
+    <div class="exercise"><span class="arrow">→</span>Esercizio 1</div>
+    <div class="exercise"><span class="arrow">→</span>Esercizio 2</div>
+    <div class="exercise"><span class="arrow">→</span>Esercizio 3</div>
+    <div class="exercise"><span class="arrow">→</span>Esercizio 4</div>
 
-    <header>
-        <div class="name">NOME COGNOME</div>
-    </header>
+    <!-- NOME -->
+    <h1 class="name">Nome Cognome</h1>
+  </div>
 
-    <main class="container">
-        <a href="#" class="btn">ESERCIZIO 1</a>
-        <a href="#" class="btn">ESERCIZIO 2</a>
-        <a href="#" class="btn">ESERCIZIO 3</a>
-        <a href="#" class="btn">ESERCIZIO 4</a>
-    </main>
+  <!-- CURSORE -->
+  <div class="cursor"></div>
 
-    <script>
-        const cursor = document.getElementById('custom-cursor');
+  <script>
+  window.onload = () => {
 
-        // Muove la freccia seguendo il mouse
-        document.addEventListener('mousemove', (e) => {
-            cursor.style.left = e.clientX + 'px';
-            cursor.style.top = e.clientY + 'px';
-        });
+    /* CURSORE */
+    const cursor = document.querySelector('.cursor');
+    document.addEventListener('mousemove', (e) => {
+      cursor.style.top = e.clientY + 'px';
+      cursor.style.left = e.clientX + 'px';
+    });
 
-        // Effetto quando si passa sopra un bottone
-        const buttons = document.querySelectorAll('.btn');
-        buttons.forEach(btn => {
-            btn.addEventListener('mouseenter', () => {
-                cursor.style.color = "#ff0000"; // Cambia colore se vuoi un feedback visivo
-                cursor.innerHTML = "↗"; // Cambia la freccia quando punta un link
-            });
-            btn.addEventListener('mouseleave', () => {
-                cursor.style.color = "#000";
-                cursor.innerHTML = "→";
-            });
-        });
-    </script>
+    /* CAMBIO FRECCIA HOVER */
+    document.querySelectorAll('.exercise').forEach(exercise => {
+      const arrow = exercise.querySelector('.arrow');
+      exercise.addEventListener('mouseenter', () => { arrow.textContent = '↗'; });
+      exercise.addEventListener('mouseleave', () => { arrow.textContent = '→'; });
+    });
+
+    /* MOVIMENTO DEGLI ESERCIZI */
+    const exercises = Array.from(document.querySelectorAll('.exercise'));
+    const nameElement = document.querySelector('h1.name');
+
+    exercises.forEach(exercise => {
+      let exWidth = exercise.offsetWidth;
+      let exHeight = exercise.offsetHeight;
+      let nameHeight = nameElement.offsetHeight;
+      let nameWidth = nameElement.offsetWidth;
+
+      // posizione iniziale casuale, evitando l'area del nome
+      let x = Math.random() * (window.innerWidth - exWidth);
+      let y = Math.random() * (window.innerHeight - exHeight - nameHeight - 40);
+
+      if (x < nameWidth + 40 && y > window.innerHeight - nameHeight - 100) {
+        y = window.innerHeight - nameHeight - 100;
+      }
+
+      // velocità casuale
+      let dx = (Math.random() - 0.5) * 4;
+      let dy = (Math.random() - 0.5) * 4;
+
+      exercise.style.left = x + 'px';
+      exercise.style.top = y + 'px';
+
+      function move() {
+        x += dx;
+        y += dy;
+
+        // rimbalzo bordi
+        if (x < 0 || x > window.innerWidth - exWidth) dx = -dx;
+        if (y < 0 || y > window.innerHeight - exHeight - nameHeight - 40) dy = -dy;
+
+        // evitare sovrapposizione con il nome
+        if (y > window.innerHeight - exHeight - nameHeight - 20 && x < nameWidth + 50) {
+          y = window.innerHeight - exHeight - nameHeight - 40;
+          dy = -Math.abs(dy);
+        }
+
+        exercise.style.left = x + 'px';
+        exercise.style.top = y + 'px';
+
+        requestAnimationFrame(move);
+      }
+
+      move();
+    });
+
+    // aggiorna posizione al resize
+    window.addEventListener('resize', () => {
+      exercises.forEach(exercise => {
+        let exWidth = exercise.offsetWidth;
+        let exHeight = exercise.offsetHeight;
+        let nameHeight = nameElement.offsetHeight;
+        let nameWidth = nameElement.offsetWidth;
+
+        let left = parseFloat(exercise.style.left);
+        let top = parseFloat(exercise.style.top);
+
+        if (left > window.innerWidth - exWidth) exercise.style.left = (window.innerWidth - exWidth) + 'px';
+        if (top > window.innerHeight - exHeight - nameHeight - 40) 
+          exercise.style.top = (window.innerHeight - exHeight - nameHeight - 40) + 'px';
+
+        if (top > window.innerHeight - exHeight - nameHeight - 20 && left < nameWidth + 50) {
+          exercise.style.top = (window.innerHeight - exHeight - nameHeight - 40) + 'px';
+        }
+      });
+    });
+
+  };
+  </script>
 
 </body>
-       
-    
-
 </html>
