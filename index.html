@@ -1,12 +1,122 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>sitoweb</title>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>sitoweb</title>
+        <style>
+        /* STILI BASE E FONT */
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff;
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            cursor: none; /* Nascondiamo il cursore originale per usare quello personalizzato */
+        }
+
+        /* HEADER */
+        header {
+            padding: 30px 50px;
+            text-align: right;
+        }
+
+        .name {
+            font-size: 18px;
+            font-weight: bold;
+            letter-spacing: -0.5px;
+            color: #000;
+        }
+
+        /* CONTENITORE PULSANTI */
+        .container {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+        }
+
+        /* BOTTONI ARROTONDATI */
+        .btn {
+            background-color: transparent;
+            border: 1.5px solid #000;
+            color: #000;
+            padding: 15px 40px;
+            font-size: 16px;
+            border-radius: 50px; /* Arrotondamento completo */
+            text-decoration: none;
+            transition: all 0.3s ease;
+            width: 250px;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .btn:hover {
+            background-color: #000;
+            color: #fff;
+            transform: scale(1.05);
+        }
+
+        /* CURSORE FRECCIA PERSONALIZZATO */
+        #custom-cursor {
+            position: fixed;
+            pointer-events: none; /* Importante: non deve interferire con i click */
+            font-family: Helvetica, Arial, sans-serif;
+            font-size: 24px;
+            font-weight: bold;
+            color: #000;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: transform 0.1s ease-out;
+        }
+
+    </style>
 </head>
 <body>
-    pagina web con esercizi seminario
-    
+
+    <div id="custom-cursor">→</div>
+
+    <header>
+        <div class="name">NOME COGNOME</div>
+    </header>
+
+    <main class="container">
+        <a href="#" class="btn">ESERCIZIO 1</a>
+        <a href="#" class="btn">ESERCIZIO 2</a>
+        <a href="#" class="btn">ESERCIZIO 3</a>
+        <a href="#" class="btn">ESERCIZIO 4</a>
+    </main>
+
+    <script>
+        const cursor = document.getElementById('custom-cursor');
+
+        // Muove la freccia seguendo il mouse
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+
+        // Effetto quando si passa sopra un bottone
+        const buttons = document.querySelectorAll('.btn');
+        buttons.forEach(btn => {
+            btn.addEventListener('mouseenter', () => {
+                cursor.style.color = "#ff0000"; // Cambia colore se vuoi un feedback visivo
+                cursor.innerHTML = "↗"; // Cambia la freccia quando punta un link
+            });
+            btn.addEventListener('mouseleave', () => {
+                cursor.style.color = "#000";
+                cursor.innerHTML = "→";
+            });
+        });
+    </script>
+
 </body>
+       
+    
+
 </html>
