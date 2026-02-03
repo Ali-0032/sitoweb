@@ -4,249 +4,209 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>sitoweb</title>
-
   <style>
-    /* RESET */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      cursor: none;
-    }
-
+    * { margin: 0; padding: 0; box-sizing: border-box; cursor: none !important; }
+    
     body {
       font-family: 'Courier New', Courier, monospace;
       background: #000;
       color: #fff;
-      min-height: 100vh;
-      width: 100%;
-      overflow-x: hidden;
-    }
-
-    /* PAGINA */
-    .page {
-      position: relative;
-      width: 100%;
       height: 100vh;
-      display: flex;
-      flex-direction: column;
+      width: 100vw;
+      overflow: hidden;
     }
 
-    /* CONTENITORE ESERCIZI */
-    .exercises-container {
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-      align-items: flex-start;
-      flex-wrap: wrap;
-      width: 100%;
-      margin-top: 25vh;
-      padding: 0 8vw;
-      gap: 20px;
-      z-index: 10;
-    }
-
-    .exercise {
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 0.5vw;
-      font-size: clamp(16px, 1.4vw, 24px); 
-      transition: opacity 0.2s ease;
-    }
-
-    .ex-title {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      white-space: nowrap;
-      transition: transform 0.2s ease;
-    }
-
-    .exercise:hover .ex-title {
-      transform: translateX(5px);
-    }
-
-    .description {
-      padding-left: 30px;
-      font-size: clamp(11px, 0.8vw, 14px);
-      color: #fff;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.3s ease;
-      text-align: left;
-      letter-spacing: 0.5px;
-      max-width: 250px;
-      white-space: normal;
-    }
-
-    .exercise:hover .description {
-      opacity: 1;
-    }
-
-    .arrow {
-      width: 20px;
-      display: inline-block;
-    }
-
-    /* FOOTER (NOME + OROLOGIO + INSTAGRAM) */
-    .footer {
-      position: absolute;
-      bottom: 5vh;
-      left: 0;
-      width: 100%;
-      padding: 0 8vw;
-      display: grid;
-      /* Tre colonne uguali per garantire il centraggio perfetto dell'orologio */
-      grid-template-columns: 1fr auto 1fr; 
-      align-items: center;
-      pointer-events: none;
-    }
-
-    h1.name {
-      font-family: 'Courier New', Courier, monospace;
-      font-size: clamp(16px, 1.8vw, 20px); 
-      font-weight: normal;
-      line-height: 1;
-      margin: 0;
-      white-space: nowrap;
-      letter-spacing: 1px;
-      pointer-events: auto;
-      justify-self: start;
-    }
-
-    /* OROLOGIO DIGITALE */
-    #clock {
-      font-family: 'Courier New', Courier, monospace;
-      font-size: clamp(16px, 1.8vw, 20px);
-      letter-spacing: 2px;
-      justify-self: center;
-      pointer-events: auto;
-    }
-
-    /* ICONA INSTAGRAM */
-    .instagram-link {
-      pointer-events: auto;
-      display: flex;
-      align-items: center;
-      justify-self: end;
-      transition: opacity 0.3s ease, transform 0.3s ease;
-      color: #fff;
-      text-decoration: none;
-    }
-
-    .instagram-link:hover {
-      opacity: 0.6;
-      transform: scale(1.1);
-    }
-
-    .instagram-icon {
-      width: clamp(22px, 2.2vw, 26px);
-      height: auto;
-      fill: currentColor;
-    }
-
-    /* CURSORE */
     .cursor {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 18px;
-      height: 18px;
+      width: 20px; height: 20px;
       border: 1px solid #fff;
       border-radius: 50%;
       pointer-events: none;
       transform: translate(-50%, -50%);
       z-index: 9999;
+      mix-blend-mode: difference;
     }
 
-    /* RESPONSIVE */
-    @media(max-width: 768px) {
-      .exercises-container {
-        flex-direction: column;
-        margin-top: 12vh;
-        gap: 25px;
-      }
-      .footer {
-        /* Su mobile l'orologio e il nome potrebbero sovrapporsi, 
-           quindi riduciamo leggermente i font o passiamo a flex se necessario */
-        grid-template-columns: 1fr 1fr 1fr;
-      }
+    section {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      /* Transizione velocizzata a 0.8s per maggiore reattività */
+      transition: transform 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+      background: #000;
+      padding: 0 8vw;
+      will-change: transform;
     }
+
+    .section-up { transform: translateY(-100%); }
+    .section-down { transform: translateY(100%); }
+
+    .interactive-container { width: fit-content; text-align: left; }
+
+    .letter {
+      display: inline-block;
+      white-space: pre;
+      transition: transform 0.1s ease-out;
+      color: #fff;
+      font-weight: normal;
+    }
+
+    #loading-page .letter-main { font-size: clamp(40px, 10vw, 120px); letter-spacing: -2px; }
+    .subtitle-row { margin-top: 10px; padding-left: 2px; }
+    .letter-sub { font-size: clamp(14px, 1.5vw, 20px); }
+
+    #intro-page .interactive-container { max-width: 800px; }
+    #intro-page .letter-desc { font-size: clamp(16px, 1.8vw, 22px); line-height: 1.6; }
+
+    #main-page { justify-content: flex-start; padding-top: 30vh; }
+    .exercises-container { display: flex; justify-content: space-between; flex-wrap: wrap; width: 100%; gap: 20px; }
+    .exercise { display: flex; flex-direction: column; font-size: clamp(16px, 1.4vw, 24px); pointer-events: auto; }
+    .ex-title { display: flex; align-items: center; gap: 10px; transition: 0.2s; }
+    .exercise:hover .ex-title { transform: translateX(5px); }
+    .description-text { padding-left: 32px; font-size: clamp(11px, 0.8vw, 14px); opacity: 0; transition: 0.3s; max-width: 250px; }
+    .exercise:hover .description-text { opacity: 1; }
+    .arrow { width: 20px; display: inline-block; }
+
+    .footer {
+      position: absolute;
+      bottom: 5vh; left: 0;
+      width: 100%;
+      padding: 0 8vw;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      pointer-events: none;
+    }
+    .footer > * { pointer-events: auto; }
+    #clock { justify-self: center; letter-spacing: 2px; }
+    .instagram-link { justify-self: end; color: #fff; }
+    .instagram-icon { width: 24px; fill: currentColor; }
   </style>
 </head>
-
 <body>
-
-  <div class="page">
-    <div class="exercises-container">
-      
-      <div class="exercise">
-        <div class="ex-title"><span class="arrow">→</span>Esercizio 1</div>
-        <div class="description">Descrizione breve del primo progetto</div>
-      </div>
-
-      <div class="exercise">
-        <div class="ex-title"><span class="arrow">→</span>Esercizio 2</div>
-        <div class="description">Analisi della tipografia dinamica</div>
-      </div>
-
-      <div class="exercise">
-        <div class="ex-title"><span class="arrow">→</span>Esercizio 3</div>
-        <div class="description">Sperimentazione su layout grid</div>
-      </div>
-
-      <div class="exercise">
-        <div class="ex-title"><span class="arrow">→</span>Esercizio 4</div>
-        <div class="description">Interaction design e movimento</div>
-      </div>
-
-    </div>
-
-    <div class="footer">
-      <h1 class="name">Nome Cognome</h1>
-      
-      <div id="clock">00:00:00</div>
-      
-      <a href="https://www.instagram.com" class="instagram-link" title="Instagram">
-        <svg class="instagram-icon" viewBox="0 0 24 24">
-          <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-        </svg>
-      </a>
-    </div>
-  </div>
 
   <div class="cursor"></div>
 
+  <section id="loading-page">
+    <div class="interactive-container">
+      <div id="title-target"></div>
+      <div id="subtitle-target" class="subtitle-row"></div>
+    </div>
+  </section>
+
+  <section id="intro-page" class="section-down">
+    <div class="interactive-container" id="desc-target"></div>
+  </section>
+
+  <section id="main-page" class="section-down">
+    <div class="exercises-container">
+      <div class="exercise"><div class="ex-title"><span class="arrow">→</span>Esercizio 1</div><div class="description-text">Interaction Design.</div></div>
+      <div class="exercise"><div class="ex-title"><span class="arrow">→</span>Esercizio 2</div><div class="description-text">Creative Coding.</div></div>
+      <div class="exercise"><div class="ex-title"><span class="arrow">→</span>Esercizio 3</div><div class="description-text">Grid Systems.</div></div>
+      <div class="exercise"><div class="ex-title"><span class="arrow">→</span>Esercizio 4</div><div class="description-text">Motion Layouts.</div></div>
+    </div>
+    <div class="footer">
+      <div class="name">Nome Cognome</div>
+      <div id="clock">00:00:00</div>
+      <a href="https://www.instagram.com" target="_blank" class="instagram-link">
+        <svg class="instagram-icon" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+      </a>
+    </div>
+  </section>
+
   <script>
-    /* OROLOGIO */
-    function updateClock() {
-      const clockElement = document.getElementById('clock');
-      const now = new Date();
-      const hours = String(now.getHours()).padStart(2, '0');
-      const minutes = String(now.getMinutes()).padStart(2, '0');
-      const seconds = String(now.getSeconds()).padStart(2, '0');
-      clockElement.textContent = `${hours}:${minutes}:${seconds}`;
+    let mouse = { x: -100, y: -100 };
+    const cursor = document.querySelector('.cursor');
+    document.addEventListener('mousemove', e => {
+      mouse.x = e.clientX; mouse.y = e.clientY;
+      cursor.style.left = mouse.x + 'px';
+      cursor.style.top = mouse.y + 'px';
+    });
+
+    setInterval(() => {
+      document.getElementById('clock').textContent = new Date().toLocaleTimeString('it-IT', {hour12: false});
+    }, 1000);
+
+    function createInteractiveText(targetId, text, className) {
+      const container = document.getElementById(targetId);
+      text.split("").forEach(char => {
+        const span = document.createElement('span');
+        span.textContent = char === " " ? "\u00A0" : char;
+        span.className = `letter ${className}`;
+        container.appendChild(span);
+      });
     }
-    setInterval(updateClock, 1000);
-    updateClock(); // Inizializza subito
 
-    /* CURSORE E HOVER */
-    window.onload = () => {
-      const cursor = document.querySelector('.cursor');
-      document.addEventListener('mousemove', (e) => {
-        cursor.style.top = e.clientY + 'px';
-        cursor.style.left = e.clientX + 'px';
+    createInteractiveText('title-target', 'PORTFOLIO', 'letter-main');
+    createInteractiveText('subtitle-target', 'Nome Cognome', 'letter-sub');
+    createInteractiveText('desc-target', 'Il mio portfolio è una raccolta di esperimenti visivi e interazioni digitali. Esploro il confine tra codice e design, cercando di dare forma al movimento attraverso strutture monospaziate e layout minimali.', 'letter-desc');
+
+    const allLetters = document.querySelectorAll('.letter');
+
+    function animate() {
+      allLetters.forEach(l => {
+        const rect = l.getBoundingClientRect();
+        const lx = rect.left + rect.width / 2;
+        const ly = rect.top + rect.height / 2;
+        const dx = mouse.x - lx;
+        const dy = mouse.y - ly;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < 100) {
+          const force = (100 - dist) / 100;
+          l.style.transform = `translate(${(dx / dist) * force * -30}px, ${(dy / dist) * force * -30}px)`;
+        } else {
+          l.style.transform = `translate(0,0)`;
+        }
+      });
+      requestAnimationFrame(animate);
+    }
+    animate();
+
+    let currentSection = 0;
+    const sections = document.querySelectorAll('section');
+    let isTransitioning = false;
+
+    function goToSection(index) {
+      if (index < 0 || index >= sections.length || isTransitioning) return;
+      
+      isTransitioning = true;
+      currentSection = index;
+
+      sections.forEach((sec, i) => {
+        sec.classList.remove('section-up', 'section-down');
+        if (i < currentSection) sec.classList.add('section-up');
+        else if (i > currentSection) sec.classList.add('section-down');
       });
 
-      document.querySelectorAll('.exercise').forEach(exercise => {
-        const arrow = exercise.querySelector('.arrow');
-        exercise.addEventListener('mouseenter', () => { arrow.textContent = '↗'; });
-        exercise.addEventListener('mouseleave', () => { arrow.textContent = '→'; });
-      });
-    };
+      // Sblocco rapido
+      setTimeout(() => { isTransitioning = false; }, 850);
+    }
+
+    window.addEventListener('wheel', (e) => {
+      if (isTransitioning) return;
+      // Reazione istantanea senza debounce
+      if (Math.abs(e.deltaY) > 10) { 
+        if (e.deltaY > 0) goToSection(currentSection + 1);
+        else goToSection(currentSection - 1);
+      }
+    }, { passive: true });
+
+    let ts = 0;
+    window.addEventListener('touchstart', (e) => { ts = e.touches[0].clientY; }, { passive: true });
+    window.addEventListener('touchend', (e) => {
+      let te = e.changedTouches[0].clientY;
+      if (ts - te > 50) goToSection(currentSection + 1);
+      else if (ts - te < -50) goToSection(currentSection - 1);
+    }, { passive: true });
+
+    document.querySelectorAll('.exercise').forEach(ex => {
+      const a = ex.querySelector('.arrow');
+      ex.addEventListener('mouseenter', () => a.textContent = '↗');
+      ex.addEventListener('mouseleave', () => a.textContent = '→');
+    });
   </script>
-
 </body>
 </html>
