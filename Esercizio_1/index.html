@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>mirtillo</title>
+	<style>
+		body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden; /* Nasconde le barre di scorrimento */
+            background-color: black;
+        }
+    canvas {
+        display: block; /* Toglie piccoli spazi bianchi sotto al canvas */
+    }
+            
+		
+	</style>
+</head>
+<body>
+	<script src="https://cdn.jsdelivr.net/npm/p5@1.11.11/lib/p5.min.js"></script>
+	<script>
+
+		let mirtillo
+
+		function preload() {
+			mirtillo = loadImage('mirtillo.png')
+		}
+
+		function setup() {
+			// creiamo un elemento canvas
+			createCanvas(windowWidth, windowHeight)
+			mirtillo.resize(mirtillo.width / 7, mirtillo.height / 7)
+            noCursor()
+		}
+        
+        function windowResized() {
+            resizeCanvas(windowWidth, windowHeight);
+        }
+		
+        function draw(){
+			// sfondo nero
+			fill(0, 20); rect(0, 0, width, height)
+			noStroke()
+
+			let numH = mirtillo.width
+			let numV = mirtillo.height
+			let d = 8
+			let ox = (width - (numH - 1) * d) / 2
+			let oy = (height - (numV - 1) * d) / 2
+
+			let amount = mouseX * 0.3
+
+			let ny = frameCount * 0.011
+			let nx = frameCount * 0.031
+			let nz = frameCount * 0.014
+
+			for (let j=0; j<numV; j++) {
+				for(let i=0; i<numH; i++) {
+					let col = mirtillo.get(i, j)
+					let al = alpha(col)
+					if (al < 250) continue
+					let br = brightness(col)
+					fill(255)
+					let px = ox + i * d + map(noise( i * 0.02 + nx, j * 0.02 + ny, nz), 0, 1, -amount, amount)
+					let py = oy + j * d + map(noise( i * 0.02 + nx, j * 0.02 + ny, nz + 5), 0, 1, -amount, amount)
+					circle(px, py, br * 0.07)
+                    
+				}
+			}
+
+			
+
+		}
+	</script>
+</body>
+</html>
