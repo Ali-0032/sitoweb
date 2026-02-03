@@ -2,6 +2,7 @@
 <html lang="it">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>sitoweb</title>
 
   <style>
@@ -18,7 +19,8 @@
       background: #000;
       color: #fff;
       min-height: 100vh;
-      overflow: hidden;
+      width: 100%;
+      overflow-x: hidden; /* Evita scroll orizzontale */
     }
 
     /* PAGINA */
@@ -30,15 +32,17 @@
       flex-direction: column;
     }
 
-    /* CONTENITORE ESERCIZI - MARGINI SIMMETRICI */
+    /* CONTENITORE ESERCIZI - TOTALMENTE RESPONSIVE */
     .exercises-container {
       display: flex;
       flex-direction: row;
-      justify-content: space-between; /* Distribuisce uniformemente tra i margini */
+      justify-content: space-between;
       align-items: flex-start;
+      flex-wrap: wrap; /* Fondamentale: permette agli elementi di andare a capo se manca spazio */
       width: 100%;
-      margin-top: 35vh;
-      padding: 0 10%; /* Stesso margine a destra e sinistra */
+      margin-top: 25vh;
+      padding: 0 8vw; /* Margine laterale fluido basato sulla larghezza schermo */
+      gap: 20px; /* Spazio minimo tra gli esercizi quando si avvicinano */
       z-index: 10;
     }
 
@@ -48,17 +52,18 @@
       display: flex;
       flex-direction: column;
       align-items: flex-start;
-      gap: 8px;
-      font-size: clamp(18px, 1.5vw, 24px);
+      gap: 0.5vw;
+      /* Il font scala fluidamente tra 16px e 24px */
+      font-size: clamp(16px, 1.4vw, 24px); 
       transition: opacity 0.2s ease;
-      white-space: nowrap;
     }
 
     /* TITOLO ESERCIZIO */
     .ex-title {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
+      white-space: nowrap;
       transition: transform 0.2s ease;
     }
 
@@ -66,17 +71,19 @@
       transform: translateX(5px);
     }
 
-    /* DESCRIZIONE (BIANCA E ALLINEATA) */
+    /* DESCRIZIONE BIANCA E ALLINEATA */
     .description {
-      padding-left: 32px;
-      font-size: clamp(12px, 0.9vw, 14px);
+      padding-left: 30px;
+      /* La descrizione scala fluidamente tra 11px e 14px */
+      font-size: clamp(11px, 0.8vw, 14px);
       color: #fff;
       opacity: 0;
       pointer-events: none;
       transition: opacity 0.3s ease;
       text-align: left;
       letter-spacing: 0.5px;
-      font-weight: normal;
+      max-width: 250px;
+      white-space: normal; /* Permette al testo lungo di andare a capo */
     }
 
     .exercise:hover .description {
@@ -91,8 +98,8 @@
     /* NOME IN BASSO A SINISTRA */
     h1.name {
       position: absolute;
-      bottom: 30px;
-      left: 30px;
+      bottom: 5vh; /* Distanza fluida dal basso */
+      left: 8vw;   /* Allineato con il margine degli esercizi */
       font-family: 'Courier New', Courier, monospace;
       font-size: clamp(18px, 2vw, 22px); 
       font-weight: normal;
@@ -116,18 +123,16 @@
       z-index: 9999;
     }
 
-    /* RESPONSIVE */
-    @media(max-width: 768px) {
+    /* ADATTAMENTO PER SCHERMI MOLTO PICCOLI (SMARTPHONE) */
+    @media(max-width: 600px) {
       .exercises-container {
         flex-direction: column;
-        align-items: flex-start;
-        gap: 40px;
         margin-top: 15vh;
-        padding-left: 10%; /* Mantiene coerenza visiva anche in verticale */
+        gap: 30px;
       }
-      .description {
-        white-space: normal;
-        max-width: 220px;
+      h1.name {
+        bottom: 3vh;
+        left: 10vw;
       }
     }
   </style>
