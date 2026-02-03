@@ -20,7 +20,7 @@
       color: #fff;
       min-height: 100vh;
       width: 100%;
-      overflow-x: hidden; /* Evita scroll orizzontale */
+      overflow-x: hidden;
     }
 
     /* PAGINA */
@@ -32,33 +32,30 @@
       flex-direction: column;
     }
 
-    /* CONTENITORE ESERCIZI - TOTALMENTE RESPONSIVE */
+    /* CONTENITORE ESERCIZI */
     .exercises-container {
       display: flex;
       flex-direction: row;
       justify-content: space-between;
       align-items: flex-start;
-      flex-wrap: wrap; /* Fondamentale: permette agli elementi di andare a capo se manca spazio */
+      flex-wrap: wrap;
       width: 100%;
       margin-top: 25vh;
-      padding: 0 8vw; /* Margine laterale fluido basato sulla larghezza schermo */
-      gap: 20px; /* Spazio minimo tra gli esercizi quando si avvicinano */
+      padding: 0 8vw;
+      gap: 20px;
       z-index: 10;
     }
 
-    /* SINGOLO ESERCIZIO */
     .exercise {
       position: relative;
       display: flex;
       flex-direction: column;
       align-items: flex-start;
       gap: 0.5vw;
-      /* Il font scala fluidamente tra 16px e 24px */
       font-size: clamp(16px, 1.4vw, 24px); 
       transition: opacity 0.2s ease;
     }
 
-    /* TITOLO ESERCIZIO */
     .ex-title {
       display: flex;
       align-items: center;
@@ -71,10 +68,8 @@
       transform: translateX(5px);
     }
 
-    /* DESCRIZIONE BIANCA E ALLINEATA */
     .description {
       padding-left: 30px;
-      /* La descrizione scala fluidamente tra 11px e 14px */
       font-size: clamp(11px, 0.8vw, 14px);
       color: #fff;
       opacity: 0;
@@ -83,7 +78,7 @@
       text-align: left;
       letter-spacing: 0.5px;
       max-width: 250px;
-      white-space: normal; /* Permette al testo lungo di andare a capo */
+      white-space: normal;
     }
 
     .exercise:hover .description {
@@ -95,18 +90,61 @@
       display: inline-block;
     }
 
-    /* NOME IN BASSO A SINISTRA */
-    h1.name {
+    /* FOOTER (NOME + OROLOGIO + INSTAGRAM) */
+    .footer {
       position: absolute;
-      bottom: 5vh; /* Distanza fluida dal basso */
-      left: 8vw;   /* Allineato con il margine degli esercizi */
+      bottom: 5vh;
+      left: 0;
+      width: 100%;
+      padding: 0 8vw;
+      display: grid;
+      /* Tre colonne uguali per garantire il centraggio perfetto dell'orologio */
+      grid-template-columns: 1fr auto 1fr; 
+      align-items: center;
+      pointer-events: none;
+    }
+
+    h1.name {
       font-family: 'Courier New', Courier, monospace;
-      font-size: clamp(18px, 2vw, 22px); 
+      font-size: clamp(16px, 1.8vw, 20px); 
       font-weight: normal;
       line-height: 1;
       margin: 0;
       white-space: nowrap;
       letter-spacing: 1px;
+      pointer-events: auto;
+      justify-self: start;
+    }
+
+    /* OROLOGIO DIGITALE */
+    #clock {
+      font-family: 'Courier New', Courier, monospace;
+      font-size: clamp(16px, 1.8vw, 20px);
+      letter-spacing: 2px;
+      justify-self: center;
+      pointer-events: auto;
+    }
+
+    /* ICONA INSTAGRAM */
+    .instagram-link {
+      pointer-events: auto;
+      display: flex;
+      align-items: center;
+      justify-self: end;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      color: #fff;
+      text-decoration: none;
+    }
+
+    .instagram-link:hover {
+      opacity: 0.6;
+      transform: scale(1.1);
+    }
+
+    .instagram-icon {
+      width: clamp(22px, 2.2vw, 26px);
+      height: auto;
+      fill: currentColor;
     }
 
     /* CURSORE */
@@ -123,16 +161,17 @@
       z-index: 9999;
     }
 
-    /* ADATTAMENTO PER SCHERMI MOLTO PICCOLI (SMARTPHONE) */
-    @media(max-width: 600px) {
+    /* RESPONSIVE */
+    @media(max-width: 768px) {
       .exercises-container {
         flex-direction: column;
-        margin-top: 15vh;
-        gap: 30px;
+        margin-top: 12vh;
+        gap: 25px;
       }
-      h1.name {
-        bottom: 3vh;
-        left: 10vw;
+      .footer {
+        /* Su mobile l'orologio e il nome potrebbero sovrapporsi, 
+           quindi riduciamo leggermente i font o passiamo a flex se necessario */
+        grid-template-columns: 1fr 1fr 1fr;
       }
     }
   </style>
@@ -144,41 +183,56 @@
     <div class="exercises-container">
       
       <div class="exercise">
-        <div class="ex-title">
-          <span class="arrow">→</span>Esercizio 1
-        </div>
+        <div class="ex-title"><span class="arrow">→</span>Esercizio 1</div>
         <div class="description">Descrizione breve del primo progetto</div>
       </div>
 
       <div class="exercise">
-        <div class="ex-title">
-          <span class="arrow">→</span>Esercizio 2
-        </div>
+        <div class="ex-title"><span class="arrow">→</span>Esercizio 2</div>
         <div class="description">Analisi della tipografia dinamica</div>
       </div>
 
       <div class="exercise">
-        <div class="ex-title">
-          <span class="arrow">→</span>Esercizio 3
-        </div>
+        <div class="ex-title"><span class="arrow">→</span>Esercizio 3</div>
         <div class="description">Sperimentazione su layout grid</div>
       </div>
 
       <div class="exercise">
-        <div class="ex-title">
-          <span class="arrow">→</span>Esercizio 4
-        </div>
+        <div class="ex-title"><span class="arrow">→</span>Esercizio 4</div>
         <div class="description">Interaction design e movimento</div>
       </div>
 
     </div>
 
-    <h1 class="name">Nome Cognome</h1>
+    <div class="footer">
+      <h1 class="name">Nome Cognome</h1>
+      
+      <div id="clock">00:00:00</div>
+      
+      <a href="https://www.instagram.com" class="instagram-link" title="Instagram">
+        <svg class="instagram-icon" viewBox="0 0 24 24">
+          <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+        </svg>
+      </a>
+    </div>
   </div>
 
   <div class="cursor"></div>
 
   <script>
+    /* OROLOGIO */
+    function updateClock() {
+      const clockElement = document.getElementById('clock');
+      const now = new Date();
+      const hours = String(now.getHours()).padStart(2, '0');
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      const seconds = String(now.getSeconds()).padStart(2, '0');
+      clockElement.textContent = `${hours}:${minutes}:${seconds}`;
+    }
+    setInterval(updateClock, 1000);
+    updateClock(); // Inizializza subito
+
+    /* CURSORE E HOVER */
     window.onload = () => {
       const cursor = document.querySelector('.cursor');
       document.addEventListener('mousemove', (e) => {
@@ -188,12 +242,8 @@
 
       document.querySelectorAll('.exercise').forEach(exercise => {
         const arrow = exercise.querySelector('.arrow');
-        exercise.addEventListener('mouseenter', () => { 
-          arrow.textContent = '↗'; 
-        });
-        exercise.addEventListener('mouseleave', () => { 
-          arrow.textContent = '→'; 
-        });
+        exercise.addEventListener('mouseenter', () => { arrow.textContent = '↗'; });
+        exercise.addEventListener('mouseleave', () => { arrow.textContent = '→'; });
       });
     };
   </script>
