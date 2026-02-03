@@ -14,7 +14,7 @@
     }
 
     body {
-      font-family: Helvetica, Arial, sans-serif;
+      font-family: 'Courier New', Courier, monospace;
       background: #000;
       color: #fff;
       min-height: 100vh;
@@ -26,68 +26,108 @@
       position: relative;
       width: 100%;
       height: 100vh;
-      padding: 20px;
+      display: flex;
+      flex-direction: column;
     }
 
-    /* ESERCIZI */
+    /* CONTENITORE ESERCIZI - MARGINI SIMMETRICI */
+    .exercises-container {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between; /* Distribuisce uniformemente tra i margini */
+      align-items: flex-start;
+      width: 100%;
+      margin-top: 35vh;
+      padding: 0 10%; /* Stesso margine a destra e sinistra */
+      z-index: 10;
+    }
+
+    /* SINGOLO ESERCIZIO */
     .exercise {
-      position: absolute;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 8px;
+      font-size: clamp(18px, 1.5vw, 24px);
+      transition: opacity 0.2s ease;
+      white-space: nowrap;
+    }
+
+    /* TITOLO ESERCIZIO */
+    .ex-title {
       display: flex;
       align-items: center;
-      gap: 15px;
-      font-family: 'Courier New', Courier, monospace; /* font monospaziato */
-      font-size: clamp(16px, 2vw, 32px); /* responsive */
-      transition: transform 0.2s ease, opacity 0.2s ease;
-    }
-
-    .exercise:hover {
-      opacity: 0.7;
-      transform: scale(1.3);
-    }
-
-    /* FRECCIA */
-    .arrow {
-      width: 25px;
-      display: inline-block;
+      gap: 12px;
       transition: transform 0.2s ease;
+    }
+
+    .exercise:hover .ex-title {
+      transform: translateX(5px);
+    }
+
+    /* DESCRIZIONE (BIANCA E ALLINEATA) */
+    .description {
+      padding-left: 32px;
+      font-size: clamp(12px, 0.9vw, 14px);
+      color: #fff;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      text-align: left;
+      letter-spacing: 0.5px;
+      font-weight: normal;
+    }
+
+    .exercise:hover .description {
+      opacity: 1;
+    }
+
+    .arrow {
+      width: 20px;
+      display: inline-block;
     }
 
     /* NOME IN BASSO A SINISTRA */
     h1.name {
       position: absolute;
-      bottom: 20px;
-      left: 20px;
-      font-size: 120pt; /* grandezza fissa */
+      bottom: 30px;
+      left: 30px;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: clamp(18px, 2vw, 22px); 
+      font-weight: normal;
       line-height: 1;
       margin: 0;
       white-space: nowrap;
+      letter-spacing: 1px;
     }
 
-    /* CURSORE PERSONALIZZATO */
+    /* CURSORE */
     .cursor {
       position: fixed;
       top: 0;
       left: 0;
-      width: 20px;
-      height: 20px;
-      border: 2px solid #fff;
+      width: 18px;
+      height: 18px;
+      border: 1px solid #fff;
       border-radius: 50%;
       pointer-events: none;
       transform: translate(-50%, -50%);
+      z-index: 9999;
     }
 
-    @media(max-width: 1200px) {
-      h1.name {
-        font-size: 0pt;
-      }
-    }
-
+    /* RESPONSIVE */
     @media(max-width: 768px) {
-      h1.name {
-        font-size: 50pt;
+      .exercises-container {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 40px;
+        margin-top: 15vh;
+        padding-left: 10%; /* Mantiene coerenza visiva anche in verticale */
       }
-      .exercise {
-        font-size: clamp(12px, 4vw, 24px);
+      .description {
+        white-space: normal;
+        max-width: 220px;
       }
     }
   </style>
@@ -96,106 +136,61 @@
 <body>
 
   <div class="page">
-    <!-- ESERCIZI -->
-    <div class="exercise"><span class="arrow">→</span>Esercizio 1</div>
-    <div class="exercise"><span class="arrow">→</span>Esercizio 2</div>
-    <div class="exercise"><span class="arrow">→</span>Esercizio 3</div>
-    <div class="exercise"><span class="arrow">→</span>Esercizio 4</div>
+    <div class="exercises-container">
+      
+      <div class="exercise">
+        <div class="ex-title">
+          <span class="arrow">→</span>Esercizio 1
+        </div>
+        <div class="description">Descrizione breve del primo progetto</div>
+      </div>
 
-    <!-- NOME -->
+      <div class="exercise">
+        <div class="ex-title">
+          <span class="arrow">→</span>Esercizio 2
+        </div>
+        <div class="description">Analisi della tipografia dinamica</div>
+      </div>
+
+      <div class="exercise">
+        <div class="ex-title">
+          <span class="arrow">→</span>Esercizio 3
+        </div>
+        <div class="description">Sperimentazione su layout grid</div>
+      </div>
+
+      <div class="exercise">
+        <div class="ex-title">
+          <span class="arrow">→</span>Esercizio 4
+        </div>
+        <div class="description">Interaction design e movimento</div>
+      </div>
+
+    </div>
+
     <h1 class="name">Nome Cognome</h1>
   </div>
 
-  <!-- CURSORE -->
   <div class="cursor"></div>
 
   <script>
-  window.onload = () => {
-
-    /* CURSORE */
-    const cursor = document.querySelector('.cursor');
-    document.addEventListener('mousemove', (e) => {
-      cursor.style.top = e.clientY + 'px';
-      cursor.style.left = e.clientX + 'px';
-    });
-
-    /* CAMBIO FRECCIA HOVER */
-    document.querySelectorAll('.exercise').forEach(exercise => {
-      const arrow = exercise.querySelector('.arrow');
-      exercise.addEventListener('mouseenter', () => { arrow.textContent = '↗'; });
-      exercise.addEventListener('mouseleave', () => { arrow.textContent = '→'; });
-    });
-
-    /* MOVIMENTO DEGLI ESERCIZI */
-    const exercises = Array.from(document.querySelectorAll('.exercise'));
-    const nameElement = document.querySelector('h1.name');
-
-    exercises.forEach(exercise => {
-      let exWidth = exercise.offsetWidth;
-      let exHeight = exercise.offsetHeight;
-      let nameHeight = nameElement.offsetHeight;
-      let nameWidth = nameElement.offsetWidth;
-
-      // posizione iniziale casuale, evitando l'area del nome
-      let x = Math.random() * (window.innerWidth - exWidth);
-      let y = Math.random() * (window.innerHeight - exHeight - nameHeight - 40);
-
-      if (x < nameWidth + 40 && y > window.innerHeight - nameHeight - 100) {
-        y = window.innerHeight - nameHeight - 100;
-      }
-
-      // velocità casuale
-      let dx = (Math.random() - 0.5) * 4;
-      let dy = (Math.random() - 0.5) * 4;
-
-      exercise.style.left = x + 'px';
-      exercise.style.top = y + 'px';
-
-      function move() {
-        x += dx;
-        y += dy;
-
-        // rimbalzo bordi
-        if (x < 0 || x > window.innerWidth - exWidth) dx = -dx;
-        if (y < 0 || y > window.innerHeight - exHeight - nameHeight - 40) dy = -dy;
-
-        // evitare sovrapposizione con il nome
-        if (y > window.innerHeight - exHeight - nameHeight - 20 && x < nameWidth + 50) {
-          y = window.innerHeight - exHeight - nameHeight - 40;
-          dy = -Math.abs(dy);
-        }
-
-        exercise.style.left = x + 'px';
-        exercise.style.top = y + 'px';
-
-        requestAnimationFrame(move);
-      }
-
-      move();
-    });
-
-    // aggiorna posizione al resize
-    window.addEventListener('resize', () => {
-      exercises.forEach(exercise => {
-        let exWidth = exercise.offsetWidth;
-        let exHeight = exercise.offsetHeight;
-        let nameHeight = nameElement.offsetHeight;
-        let nameWidth = nameElement.offsetWidth;
-
-        let left = parseFloat(exercise.style.left);
-        let top = parseFloat(exercise.style.top);
-
-        if (left > window.innerWidth - exWidth) exercise.style.left = (window.innerWidth - exWidth) + 'px';
-        if (top > window.innerHeight - exHeight - nameHeight - 40) 
-          exercise.style.top = (window.innerHeight - exHeight - nameHeight - 40) + 'px';
-
-        if (top > window.innerHeight - exHeight - nameHeight - 20 && left < nameWidth + 50) {
-          exercise.style.top = (window.innerHeight - exHeight - nameHeight - 40) + 'px';
-        }
+    window.onload = () => {
+      const cursor = document.querySelector('.cursor');
+      document.addEventListener('mousemove', (e) => {
+        cursor.style.top = e.clientY + 'px';
+        cursor.style.left = e.clientX + 'px';
       });
-    });
 
-  };
+      document.querySelectorAll('.exercise').forEach(exercise => {
+        const arrow = exercise.querySelector('.arrow');
+        exercise.addEventListener('mouseenter', () => { 
+          arrow.textContent = '↗'; 
+        });
+        exercise.addEventListener('mouseleave', () => { 
+          arrow.textContent = '→'; 
+        });
+      });
+    };
   </script>
 
 </body>
