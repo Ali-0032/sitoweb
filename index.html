@@ -16,6 +16,17 @@
       overflow: hidden;
     }
 
+    /* CLASSE PER I LINK SOTTOLINEATI DEGLI ESERCIZI */
+    .link-ex {
+      color: #fff;
+      text-decoration: underline;
+      pointer-events: auto;
+      transition: opacity 0.2s;
+    }
+    .link-ex:hover {
+      opacity: 0.7;
+    }
+
     .cursor {
       position: fixed;
       width: 20px; height: 20px;
@@ -34,7 +45,6 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
-      /* Transizione velocizzata a 0.8s per maggiore reattività */
       transition: transform 0.8s cubic-bezier(0.23, 1, 0.32, 1);
       background: #000;
       padding: 0 8vw;
@@ -103,8 +113,20 @@
 
   <section id="main-page" class="section-down">
     <div class="exercises-container">
-      <div class="exercise"><div class="ex-title"><span class="arrow">→</span>Esercizio 1</div><div class="description-text">Interaction Design.</div></div>
-      <div class="exercise"><div class="ex-title"><span class="arrow">→</span>Esercizio 2</div><div class="description-text">Creative Coding.</div></div>
+      <div class="exercise">
+        <div class="ex-title"><span class="arrow">→</span>Esercizio 1</div>
+        <div class="description-text">
+          <a href="Esercizio_1/index.html" class="link-ex">Esercizio 1a</a>
+        </div>
+      </div>
+      
+      <div class="exercise">
+        <div class="ex-title"><span class="arrow">→</span>Esercizio 2</div>
+        <div class="description-text">
+            <a href="Esercizio_2/index.html" class="link-ex">Esercizio 2a</a>
+        </div>
+      </div>
+
       <div class="exercise"><div class="ex-title"><span class="arrow">→</span>Esercizio 3</div><div class="description-text">Grid Systems.</div></div>
       <div class="exercise"><div class="ex-title"><span class="arrow">→</span>Esercizio 4</div><div class="description-text">Motion Layouts.</div></div>
     </div>
@@ -181,13 +203,11 @@
         else if (i > currentSection) sec.classList.add('section-down');
       });
 
-      // Sblocco rapido
       setTimeout(() => { isTransitioning = false; }, 850);
     }
 
     window.addEventListener('wheel', (e) => {
       if (isTransitioning) return;
-      // Reazione istantanea senza debounce
       if (Math.abs(e.deltaY) > 10) { 
         if (e.deltaY > 0) goToSection(currentSection + 1);
         else goToSection(currentSection - 1);
