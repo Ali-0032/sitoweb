@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Esercizio 2a</title>
+    
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.11.2/lib/p5.min.js"></script>
+    
+    <style>
+        /* Rende il canvas a tutto schermo e rimuove i margini */
+        body, html {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: black;
+            width: 100%;
+            height: 100%;
+            /* Nasconde il cursore anche via CSS per evitare lampeggi */
+            cursor: none; 
+        }
+
+        canvas {
+            display: block;
+        }
+
+        /* Pulsante di chiusura stile "Mirtillo" */
+        .close-btn {
+            position: fixed;
+            top: 20px;
+            right: 30px;
+            color: white;
+            text-decoration: none;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 50px;
+            z-index: 9999;
+            line-height: 1;
+            transition: opacity 0.2s;
+            cursor: pointer; /* Questo mostrerà la manina solo sopra la X */
+            user-select: none;
+        }
+
+        .close-btn:hover {
+            opacity: 0.5;
+        }
+    </style>
+</head>
+<body>
+
+    <a href="../index.html#main-page" class="close-btn">×</a>
+
+    <script src="sketch.js"></script>
+
+</body>
+</html>
