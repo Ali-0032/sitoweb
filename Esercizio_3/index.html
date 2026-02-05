@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monitoraggio Tempo Utilizzo</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
+            background-color: #000000; 
+            color: #ffffff; 
+            margin: 0;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            box-sizing: border-box;
+            position: relative;
+        }
+
+        /* CROCETTA IN ALTO A DESTRA */
+        .close-link {
+            position: absolute;
+            top: 25px;
+            right: 25px;
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 30px;
+            font-family: 'Courier New', Courier, monospace;
+            line-height: 1;
+            z-index: 1000;
+            cursor: pointer !important;
+            transition: opacity 0.2s;
+        }
+        
+        .close-link:hover {
+            opacity: 0.6;
+        }
+
+        .header-left {
+            align-self: flex-start;
+            margin-bottom: 20px;
+        }
+
+        h1 { 
+            font-size: 1.5rem; 
+            font-weight: 300; 
+            letter-spacing: 1px; 
+            margin: 0;
+            color: #ffffff;
+        }
+
+        .chart-container {
+            flex-grow: 1;
+            width: 100%;
+            position: relative;
+        }
+
+        .footer-left {
+            align-self: flex-start;
+            margin-top: 30px;
+            text-align: left;
+        }
+
+        .average-label {
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-size: 0.65rem;
+            display: block;
+        }
+
+        .average-value {
+            font-size: 2.5rem;
+            font-weight: 200;
+            color: #00dbde;
+            line-height: 1.2;
+        }
+    </style>
+</head>
+<body>
+
+    <a href="../index.html#main-page" class="close-link">✕</a>
+
+    <div class="header-left">
+        <h1>TEMPO DI UTILIZZO COMPUTER</h1>
+    </div>
+
+    <div class="chart-container">
+        <canvas id="usageChart"></canvas>
+    </div>
+
+    <div class="footer-left">
+        <span class="average-label">Media Giornaliera</span>
+        <span class="average-value" id="avgDisplay">--</span>
+    </div>
+
+<script>
+    // ... (Tutto il tuo script JS originale rimane invariato)
+    const labels = ["24 ott", "25 ott", "26 ott", "27 ott", "28 ott", "29 ott", "30 ott", "31 ott", "1 nov", "2 nov", "3 nov", "4 nov", "5 nov", "6 nov", "7 nov", "8 nov", "9 nov", "10 nov", "11 nov", "12 nov", "13 nov", "14 nov", "15 nov", "16 nov", "17 nov", "18 nov", "19 nov", "20 nov", "22 nov", "23 nov", "24 nov", "25 nov", "26 nov", "27 nov", "28 nov", "29 nov", "30 nov", "1 dic", "2 dic", "3 dic", "4 dic", "5 dic", "6 dic", "7 dic", "8 dic", "9 dic", "10 dic", "11 dic", "12 dic", "13 dic", "14 dic", "15 dic", "16 dic", "17 dic", "18 dic", "19 dic", "20 dic", "21 dic", "22 dic", "23 dic", "25 dic", "26 dic", "27 dic", "28 dic", "29 dic", "30 dic", "31 dic", "1 gen", "2 gen", "3 gen", "4 gen", "5 gen", "6 gen", "7 gen", "8 gen", "9 gen", "10 gen", "11 gen", "12 gen", "13 gen", "14 gen", "15 gen", "16 gen", "17 gen", "18 gen", "19 gen", "20 gen", "21 gen", "22 gen", "23 gen", "24 gen", "25 gen", "26 gen", "27 gen", "28 gen", "29 gen", "31 gen", "1 feb", "2 feb", "3 feb", "4 feb"];
+    const dataValues = [14.18, 12.73, 13.87, 12.81, 14.35, 14.52, 12.95, 14.97, 11.09, 10.56, 12.94, 12.05, 13.45, 14.47, 14.36, 12.77, 12.04, 14.37, 12.69, 14.35, 14.05, 14.57, 12.74, 12.49, 10.81, 13.71, 11.19, 14.45, 14.28, 12.35, 13.63, 13.23, 12.64, 12.78, 13.97, 13.58, 12.67, 13.66, 12.62, 10.37, 15.26, 22.57, 11.58, 13.50, 12.43, 13.37, 13.03, 13.37, 13.03, 13.97, 11.77, 14.39, 14.51, 13.13, 14.22, 13.11, 13.19, 12.66, 14.60, 13.43, 13.70, 13.90, 14.25, 12.63, 13.65, 12.02, 13.28, 13.82, 13.18, 13.46, 12.05, 14.32, 11.74, 13.87, 13.77, 9.22, 12.75, 13.87, 11.10, 11.88, 14.56, 12.09, 13.65, 13.80, 13.21, 13.22, 12.72, 13.92, 12.91, 12.25, 12.56, 8.81, 12.63, 13.41, 13.51, 13.36, 12.58, 12.37, 13.95, 10.68, 13.79, 13.90, 14.36];
+
+    const avg = (dataValues.reduce((a, b) => a + b, 0) / dataValues.length).toFixed(2);
+    document.getElementById('avgDisplay').innerText = avg + 'h';
+
+    const ctx = document.getElementById('usageChart').getContext('2d');
+    
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [{
+                data: dataValues,
+                borderColor: '#00dbde',
+                borderWidth: 2,
+                pointRadius: 0,
+                pointHitRadius: 20,
+                pointHoverRadius: 5,
+                pointHoverBackgroundColor: '#ffffff',
+                fill: false,
+                tension: 0.4
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            interaction: { intersect: false, mode: 'index' },
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    enabled: true,
+                    backgroundColor: 'rgba(20, 20, 20, 0.9)',
+                    padding: 15,
+                    titleColor: '#888',
+                    bodyColor: '#00dbde',
+                    bodyFont: { size: 18, weight: 'bold' },
+                    displayColors: false,
+                    callbacks: {
+                        label: context => context.parsed.y + ' ore'
+                    }
+                }
+            },
+            scales: {
+                y: { 
+                    beginAtZero: true, 
+                    max: 24,
+                    ticks: { 
+                        color: '#ffffff',
+                        font: { size: 11 },
+                        stepSize: 6,
+                        callback: value => value + 'h'
+                    },
+                    grid: { 
+                        color: 'rgba(255, 255, 255, 0.1)',
+                        drawBorder: false,
+                        borderDash: [5, 5]
+                    }
+                },
+                x: { 
+                    ticks: { 
+                        color: '#ffffff',
+                        font: { size: 11 },
+                        autoSkip: true, 
+                        maxTicksLimit: 10 
+                    },
+                    grid: { display: false }
+                }
+            }
+        }
+    });
+</script>
+
+</body>
+</html>
