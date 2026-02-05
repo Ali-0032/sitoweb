@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>sitoweb</title>
+  <title>Portfolio - Spazio Sperimentale</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; cursor: none !important; }
     
@@ -16,16 +16,54 @@
       overflow: hidden;
     }
 
-    /* CLASSE PER I LINK SOTTOLINEATI DEGLI ESERCIZI */
-    .link-ex {
-      color: #fff;
-      text-decoration: underline;
-      pointer-events: auto;
-      transition: opacity 0.2s;
+    /* --- PRIMA PAGINA --- */
+    #loading-page {
+      background: #000;
+      overflow: hidden;
+      display: block; 
+      padding: 10px;
     }
-    .link-ex:hover {
-      opacity: 0.7;
+
+    #glitch-bg-container {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0; left: 0;
+      font-size: 14px;
+      line-height: 1.4;
+      color: rgb(255, 255, 255);
+      pointer-events: none;
+      user-select: none;
+      padding: 10px;
+      overflow: hidden;
     }
+
+    /* Importante per la repulsione */
+    .repel-word, .letter {
+      display: inline-block;
+      will-change: transform;
+      transition: transform 0.2s ease-out;
+    }
+
+    /* --- SECONDA PAGINA --- */
+    #intro-page {
+      align-items: flex-start;
+      text-align: left;
+    }
+
+    #intro-page .interactive-container {
+      max-width: 500px;
+    }
+
+    .letter-desc {
+      font-size: clamp(16px, 4vw, 20px);
+      line-height: 1.1;
+      text-transform: lowercase;
+    }
+
+    /* --- STILI COMUNI E NAVIGAZIONE --- */
+    .link-ex { color: #fff; text-decoration: underline; pointer-events: auto; transition: opacity 0.2s; }
+    .link-ex:hover { opacity: 0.7; }
 
     .cursor {
       position: fixed;
@@ -54,26 +92,10 @@
     .section-up { transform: translateY(-100%); }
     .section-down { transform: translateY(100%); }
 
-    .interactive-container { width: fit-content; text-align: left; }
-
-    .letter {
-      display: inline-block;
-      white-space: pre;
-      transition: transform 0.1s ease-out;
-      color: #fff;
-      font-weight: normal;
-    }
-
-    #loading-page .letter-main { font-size: clamp(40px, 10vw, 120px); letter-spacing: -2px; }
-    .subtitle-row { margin-top: 10px; padding-left: 2px; }
-    .letter-sub { font-size: clamp(14px, 1.5vw, 20px); }
-
-    #intro-page .interactive-container { max-width: 800px; }
-    #intro-page .letter-desc { font-size: clamp(16px, 1.8vw, 22px); line-height: 1.6; }
-
-    #main-page { justify-content: flex-start; padding-top: 30vh; }
-    .exercises-container { display: flex; justify-content: space-between; flex-wrap: wrap; width: 100%; gap: 20px; }
-    .exercise { display: flex; flex-direction: column; font-size: clamp(16px, 1.4vw, 24px); pointer-events: auto; }
+    #main-page { justify-content: flex-start; padding-top: 35vh; padding-left: 0; padding-right: 0; }
+    
+    .exercises-container { display: flex; justify-content: space-around; width: 100%; padding: 0 5vw; }
+    .exercise { display: flex; flex-direction: column; font-size: clamp(16px, 1.4vw, 24px); pointer-events: auto; text-align: left; }
     .ex-title { display: flex; align-items: center; gap: 10px; transition: 0.2s; }
     .exercise:hover .ex-title { transform: translateX(5px); }
     .description-text { padding-left: 32px; font-size: clamp(11px, 0.8vw, 14px); opacity: 0; transition: 0.3s; max-width: 250px; }
@@ -89,6 +111,7 @@
       grid-template-columns: 1fr auto 1fr;
       align-items: center;
       pointer-events: none;
+      z-index: 100;
     }
     .footer > * { pointer-events: auto; }
     #clock { justify-self: center; letter-spacing: 2px; }
@@ -101,10 +124,7 @@
   <div class="cursor"></div>
 
   <section id="loading-page">
-    <div class="interactive-container">
-      <div id="title-target"></div>
-      <div id="subtitle-target" class="subtitle-row"></div>
-    </div>
+    <div id="glitch-bg-container"></div>
   </section>
 
   <section id="intro-page" class="section-down">
@@ -115,21 +135,18 @@
     <div class="exercises-container">
       <div class="exercise">
         <div class="ex-title"><span class="arrow">→</span>Esercizio 1</div>
-        <div class="description-text">
-          <a href="Esercizio_1/index.html" class="link-ex">Esercizio 1a</a>
-        </div>
+        <div class="description-text"><a href="Esercizio_1/index.html" class="link-ex">Mirtillo</a></div>
       </div>
-      
       <div class="exercise">
         <div class="ex-title"><span class="arrow">→</span>Esercizio 2</div>
-        <div class="description-text">
-            <a href="Esercizio_2/index.html" class="link-ex">Esercizio 2a</a>
-        </div>
+        <div class="description-text"><a href="Esercizio_2/index.html" class="link-ex">Animazione "a"</a></div>
       </div>
-
-      <div class="exercise"><div class="ex-title"><span class="arrow">→</span>Esercizio 3</div><div class="description-text">Grid Systems.</div></div>
-      <div class="exercise"><div class="ex-title"><span class="arrow">→</span>Esercizio 4</div><div class="description-text">Motion Layouts.</div></div>
+      <div class="exercise">
+        <div class="ex-title"><span class="arrow">→</span>Esercizio 3</div>
+        <div class="description-text"><a href="Esercizio_3/index.html" class="link-ex">Monitoraggio</a></div>
+      </div>
     </div>
+
     <div class="footer">
       <div class="name">Nome Cognome</div>
       <div id="clock">00:00:00</div>
@@ -140,10 +157,34 @@
   </section>
 
   <script>
-    let mouse = { x: -100, y: -100 };
+    // --- VARIABILI GLOBALI ---
+    let mouse = { x: -1000, y: -1000 };
+    let currentSection = 0;
+    const repulsionRadius = 100;
+    const repulsionStrength = 0.5;
+
+    // --- SFONDO PRIMA PAGINA (PATTERN) ---
+    const bgContainer = document.getElementById('glitch-bg-container');
+    const wordText = "SPAZIO SPERIMENTALE ";
+    
+    function initPattern() {
+        bgContainer.innerHTML = '';
+        // Riempio lo schermo con span separati
+        const amount = Math.floor((window.innerWidth * window.innerHeight) / 1200);
+        for (let i = 0; i < amount; i++) {
+            const span = document.createElement('span');
+            span.textContent = wordText;
+            span.className = 'repel-word';
+            bgContainer.appendChild(span);
+        }
+    }
+    initPattern();
+
+    // --- CURSORE E OROLOGIO ---
     const cursor = document.querySelector('.cursor');
     document.addEventListener('mousemove', e => {
-      mouse.x = e.clientX; mouse.y = e.clientY;
+      mouse.x = e.clientX; 
+      mouse.y = e.clientY;
       cursor.style.left = mouse.x + 'px';
       cursor.style.top = mouse.y + 'px';
     });
@@ -152,6 +193,7 @@
       document.getElementById('clock').textContent = new Date().toLocaleTimeString('it-IT', {hour12: false});
     }, 1000);
 
+    // --- TESTO SECONDA PAGINA ---
     function createInteractiveText(targetId, text, className) {
       const container = document.getElementById(targetId);
       text.split("").forEach(char => {
@@ -161,65 +203,60 @@
         container.appendChild(span);
       });
     }
+    createInteractiveText('desc-target', 'piccola raccolta di lavori sperimentali', 'letter-desc');
 
-    createInteractiveText('title-target', 'Spazio Sperimentale', 'letter-main');
-    createInteractiveText('subtitle-target', 'Nome Cognome', 'letter-sub');
-    createInteractiveText('desc-target', 'Il mio portfolio è una raccolta di esperimenti visivi e interazioni digitali. Esploro il confine tra codice e design, cercando di dare forma al movimento attraverso strutture monospaziate e layout minimali.', 'letter-desc');
-
-    const allLetters = document.querySelectorAll('.letter');
-
-    function animate() {
-      allLetters.forEach(l => {
-        const rect = l.getBoundingClientRect();
-        const lx = rect.left + rect.width / 2;
-        const ly = rect.top + rect.height / 2;
-        const dx = mouse.x - lx;
-        const dy = mouse.y - ly;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist < 100) {
-          const force = (100 - dist) / 100;
-          l.style.transform = `translate(${(dx / dist) * force * -30}px, ${(dy / dist) * force * -30}px)`;
-        } else {
-          l.style.transform = `translate(0,0)`;
+    // --- LOGICA REPULSIONE ---
+    function handleRepulsion() {
+        // Seleziono gli elementi in base alla sezione attiva
+        let targets = [];
+        if (currentSection === 0) {
+            targets = document.querySelectorAll('.repel-word');
+        } else if (currentSection === 1) {
+            targets = document.querySelectorAll('.letter-desc');
         }
-      });
-      requestAnimationFrame(animate);
-    }
-    animate();
 
-    let currentSection = 0;
+        targets.forEach(el => {
+            const rect = el.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+
+            const dx = mouse.x - centerX;
+            const dy = mouse.y - centerY;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+
+            if (distance < repulsionRadius) {
+                const angle = Math.atan2(dy, dx);
+                const force = (repulsionRadius - distance) * repulsionStrength;
+                el.style.transform = `translate(${-Math.cos(angle) * force}px, ${-Math.sin(angle) * force}px)`;
+            } else {
+                el.style.transform = 'translate(0, 0)';
+            }
+        });
+        requestAnimationFrame(handleRepulsion);
+    }
+    handleRepulsion();
+
+    // --- NAVIGAZIONE ---
     const sections = document.querySelectorAll('section');
     let isTransitioning = false;
 
     function goToSection(index) {
       if (index < 0 || index >= sections.length || isTransitioning) return;
-      
       isTransitioning = true;
       currentSection = index;
-
       sections.forEach((sec, i) => {
         sec.classList.remove('section-up', 'section-down');
         if (i < currentSection) sec.classList.add('section-up');
         else if (i > currentSection) sec.classList.add('section-down');
       });
-
       setTimeout(() => { isTransitioning = false; }, 850);
     }
 
     window.addEventListener('wheel', (e) => {
-      if (isTransitioning) return;
       if (Math.abs(e.deltaY) > 10) { 
         if (e.deltaY > 0) goToSection(currentSection + 1);
         else goToSection(currentSection - 1);
       }
-    }, { passive: true });
-
-    let ts = 0;
-    window.addEventListener('touchstart', (e) => { ts = e.touches[0].clientY; }, { passive: true });
-    window.addEventListener('touchend', (e) => {
-      let te = e.changedTouches[0].clientY;
-      if (ts - te > 50) goToSection(currentSection + 1);
-      else if (ts - te < -50) goToSection(currentSection - 1);
     }, { passive: true });
 
     document.querySelectorAll('.exercise').forEach(ex => {
@@ -227,6 +264,8 @@
       ex.addEventListener('mouseenter', () => a.textContent = '↗');
       ex.addEventListener('mouseleave', () => a.textContent = '→');
     });
+
+    window.addEventListener('resize', initPattern);
   </script>
 </body>
 </html>
